@@ -1,2 +1,3 @@
-*.root
 ROOT_histograms/*
+Results/*
+Template_correction/

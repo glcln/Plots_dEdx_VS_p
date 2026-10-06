@@ -2,11 +2,11 @@
 // This class has been automatically generated on
 // Mon Nov  4 12:08:02 2019 by ROOT version 6.14/09
 // from TTree ttree/ttree
-// found on file: /opt/sbg/cms/ui3_data1/ccollard/HSCP_prod/prodOct2019_CMSSW_10_6_2/SingleMuon/run2017B/191023_141349/0000/nt_data_aod_44.root
+// found on file: /scratch/ui14_2/ccollard/HSCP_prod/prodOct2025_CMSSW_15_0_15p4/Muon0/Skim_ZMu0_Run2025B/RunCv1_251031_101954/0000/nt_run3_skim_31.root
 //////////////////////////////////////////////////////////
 
-#ifndef run2analysis_h
-#define run2analysis_h
+#ifndef code_dedx_h
+#define code_dedx_h
 #define nmax_gen 1000
 #define nmax_tr 10000
 #define nmax_cl 100000
@@ -29,7 +29,7 @@ using namespace std;
 
 // Header file for the classes stored in the TTree if any.
 
-class run2analysis {
+class code_dedx {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -310,8 +310,8 @@ public :
    TBranch        *b_hscp_track_idx;   //!
    TBranch        *b_hscp_muon_idx;   //!
 
-   run2analysis(TTree *tree=0);
-   virtual ~run2analysis();
+   code_dedx(TTree *tree=0);
+   virtual ~code_dedx();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
@@ -320,42 +320,42 @@ public :
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
    
-   double getdEdX(std::vector <float> charge, std::vector <float> pathlength, std::vector <int> subdetId, std::vector <int> moduleGeometry, std::vector <bool> bool_cleaning, std::vector <bool> mustBeInside);
-   std::vector<uint16_t> OldCorrection(const std::vector<uint16_t>&  Q, bool way, float thresholdSat);
+   double getdEdX(const std::vector<float>& charge, const std::vector<float>& pathlength, const std::vector<bool>& bool_cleaning, const std::vector<bool>& mustBeInside);
+   std::vector<uint16_t> OldCorrection(const std::vector<uint16_t>&  Q, float thresholdSat);
 };
 
 #endif
 
-#ifdef run2analysis_cxx
-run2analysis::run2analysis(TTree *tree) : fChain(0) 
+#ifdef code_dedx_cxx
+code_dedx::code_dedx(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/ui3_data1/ccollard/HSCP_prod/prodOct2019_CMSSW_10_6_2/SingleMuon/run2017B/191023_141349/0000/nt_data_aod_44.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/scratch/ui14_2/ccollard/HSCP_prod/prodOct2025_CMSSW_15_0_15p4/Muon0/Skim_ZMu0_Run2025B/RunCv1_251031_101954/0000/nt_run3_skim_31.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("/opt/sbg/cms/ui3_data1/ccollard/HSCP_prod/prodOct2019_CMSSW_10_6_2/SingleMuon/run2017B/191023_141349/0000/nt_data_aod_44.root");
+         f = new TFile("/scratch/ui14_2/ccollard/HSCP_prod/prodOct2025_CMSSW_15_0_15p4/Muon0/Skim_ZMu0_Run2025B/RunCv1_251031_101954/0000/nt_run3_skim_31.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/ui3_data1/ccollard/HSCP_prod/prodOct2019_CMSSW_10_6_2/SingleMuon/run2017B/191023_141349/0000/nt_data_aod_44.root:/stage");
+      TDirectory * dir = (TDirectory*)f->Get("/scratch/ui14_2/ccollard/HSCP_prod/prodOct2025_CMSSW_15_0_15p4/Muon0/Skim_ZMu0_Run2025B/RunCv1_251031_101954/0000/nt_run3_skim_31.root:/stage");
       dir->GetObject("ttree",tree);
 
    }
    Init(tree);
 }
 
-run2analysis::~run2analysis()
+code_dedx::~code_dedx()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
 }
 
-Int_t run2analysis::GetEntry(Long64_t entry)
+Int_t code_dedx::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t run2analysis::LoadTree(Long64_t entry)
+Long64_t code_dedx::LoadTree(Long64_t entry)
 {
 // Set the environment to read one entry
    if (!fChain) return -5;
@@ -368,7 +368,7 @@ Long64_t run2analysis::LoadTree(Long64_t entry)
    return centry;
 }
 
-void run2analysis::Init(TTree *tree)
+void code_dedx::Init(TTree *tree)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -534,7 +534,7 @@ void run2analysis::Init(TTree *tree)
    Notify();
 }
 
-Bool_t run2analysis::Notify()
+Bool_t code_dedx::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -545,18 +545,18 @@ Bool_t run2analysis::Notify()
    return kTRUE;
 }
 
-void run2analysis::Show(Long64_t entry)
+void code_dedx::Show(Long64_t entry)
 {
 // Print contents of entry.
 // If entry is not specified, print current entry
    if (!fChain) return;
    fChain->Show(entry);
 }
-Int_t run2analysis::Cut(Long64_t entry)
+Int_t code_dedx::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
 }
-#endif // #ifdef run2analysis_cxx
+#endif // #ifdef code_dedx_cxx
